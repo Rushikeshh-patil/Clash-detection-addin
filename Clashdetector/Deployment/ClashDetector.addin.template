@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>Clash Detector</Name>
+    <Assembly>C:\Path\To\Clashdetector.dll</Assembly>
+    <AddInId>E59C3C7F-8E8F-4C2C-9F3D-1C4AF7DE9E16</AddInId>
+    <FullClassName>Clashdetector.App</FullClassName>
+    <VendorId>CLASH</VendorId>
+    <VendorDescription>Clash Detector MVP for Revit 2025</VendorDescription>
+  </AddIn>
+</RevitAddIns>

@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="RevitAPI">
+      <HintPath>..\..\..\Program Files\Autodesk\Revit 2025\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\..\..\Program Files\Autodesk\Revit 2025\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Clashdetector.Core\Clashdetector.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Clashdetector.Core\**\*.cs;Clashdetector.Core.Tests\**\*.cs" />
+    <EmbeddedResource Remove="Clashdetector.Core\**\*;Clashdetector.Core.Tests\**\*" />
+    <None Remove="Clashdetector.Core\**\*;Clashdetector.Core.Tests\**\*" />
+    <Page Remove="Clashdetector.Core\**\*;Clashdetector.Core.Tests\**\*" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,207 @@
+<UserControl x:Class="Clashdetector.UI.ClashPaneControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="900"
+             d:DesignWidth="560"
+             MinWidth="440">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+            <Button Content="Run Now" Width="80" Margin="0,0,8,0" Click="RunNowButton_Click" />
+            <CheckBox Content="Auto Mode"
+                      Margin="0,4,8,0"
+                      IsChecked="{Binding AutoModeEnabled, Mode=TwoWay}" />
+            <TextBlock Text="Debounce (ms):" Margin="0,4,6,0" VerticalAlignment="Center" />
+            <TextBox Width="70"
+                     Margin="0,0,8,0"
+                     Text="{Binding DebounceMilliseconds, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+            <Button Content="Save Settings" Width="90" Margin="0,0,8,0" Click="SaveSettingsButton_Click" />
+            <Button Content="Refresh Models" Width="96" Click="RefreshCatalogsButton_Click" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="Configs" Grid.Column="0" Margin="0,0,8,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <DataGrid ItemsSource="{Binding Configs}"
+                              SelectedItem="{Binding SelectedConfig, Mode=TwoWay}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="False"
+                              CanUserAddRows="False"
+                              Margin="8">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="On" Binding="{Binding IsActive, Mode=TwoWay}" Width="40" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+                            <DataGridCheckBoxColumn Header="M" Binding="{Binding RunInManualMode, Mode=TwoWay}" Width="30" />
+                            <DataGridCheckBoxColumn Header="A" Binding="{Binding RunInAutoMode, Mode=TwoWay}" Width="30" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="8">
+                        <Button Content="New" Width="64" Margin="0,0,8,0" Click="NewConfigButton_Click" />
+                        <Button Content="Duplicate" Width="70" Margin="0,0,8,0" Click="DuplicateConfigButton_Click" />
+                        <Button Content="Delete" Width="64" Click="DeleteConfigButton_Click" />
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Header="Config Editor" Grid.Column="1">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Text="Name:" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <TextBox Width="220"
+                                 Text="{Binding SelectedConfig.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <Grid Grid.Row="1" Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Model A:" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <ComboBox Grid.Column="1"
+                                  Width="190"
+                                  ItemsSource="{Binding AvailableModels}"
+                                  DisplayMemberPath="DisplayName"
+                                  SelectedItem="{Binding SelectedConfig.ModelA, Mode=TwoWay}" />
+
+                        <TextBlock Grid.Column="2" Text="Model B:" VerticalAlignment="Center" Margin="12,0,6,0" />
+                        <ComboBox Grid.Column="3"
+                                  Width="190"
+                                  ItemsSource="{Binding AvailableModels}"
+                                  DisplayMemberPath="DisplayName"
+                                  SelectedItem="{Binding SelectedConfig.ModelB, Mode=TwoWay}" />
+                    </Grid>
+
+                    <GroupBox Grid.Row="2" Header="Category Pair Rules" Margin="0,0,0,8">
+                        <Grid Margin="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <ComboBox x:Name="CategoryACombo"
+                                          Width="150"
+                                          ItemsSource="{Binding AvailableCategories}" />
+                                <TextBlock Text="vs" Margin="8,4,8,0" />
+                                <ComboBox x:Name="CategoryBCombo"
+                                          Width="150"
+                                          ItemsSource="{Binding AvailableCategories}" />
+                                <Button Content="Add Pair" Width="72" Margin="8,0,8,0" Click="AddCategoryPairButton_Click" />
+                                <Button Content="Remove Pair" Width="86" Click="RemoveCategoryPairButton_Click" />
+                            </StackPanel>
+
+                            <DataGrid Grid.Row="1"
+                                      ItemsSource="{Binding SelectedConfig.CategoryPairs}"
+                                      SelectedItem="{Binding SelectedCategoryPair, Mode=TwoWay}"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      IsReadOnly="False">
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Header="On" Binding="{Binding Enabled, Mode=TwoWay}" Width="50" />
+                                    <DataGridTextColumn Header="Category A" Binding="{Binding CategoryA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+                                    <DataGridTextColumn Header="Category B" Binding="{Binding CategoryB, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </GroupBox>
+
+                    <WrapPanel Grid.Row="3" VerticalAlignment="Center">
+                        <TextBlock Text="Medium >= " VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <TextBox Width="70"
+                                 Margin="0,0,12,0"
+                                 Text="{Binding SelectedConfig.SeverityThresholds.MediumMin, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <TextBlock Text="High >= " VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <TextBox Width="70"
+                                 Margin="0,0,12,0"
+                                 Text="{Binding SelectedConfig.SeverityThresholds.HighMin, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <TextBlock Text="Low Color:" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <TextBox Width="82"
+                                 Margin="0,0,8,0"
+                                 Text="{Binding SelectedConfig.ColorSettings.LowColorHex, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <TextBlock Text="Med Color:" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <TextBox Width="82"
+                                 Margin="0,0,8,0"
+                                 Text="{Binding SelectedConfig.ColorSettings.MediumColorHex, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                        <TextBlock Text="High Color:" VerticalAlignment="Center" Margin="0,0,6,0" />
+                        <TextBox Width="82"
+                                 Text="{Binding SelectedConfig.ColorSettings.HighColorHex, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                    </WrapPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <GroupBox Grid.Row="2" Header="Results">
+            <Grid Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <DataGrid ItemsSource="{Binding Results}"
+                          SelectedItem="{Binding SelectedResult, Mode=TwoWay}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Config" Binding="{Binding ConfigName}" Width="110" />
+                        <DataGridTextColumn Header="Model A" Binding="{Binding ModelA.DisplayName}" Width="130" />
+                        <DataGridTextColumn Header="Model B" Binding="{Binding ModelB.DisplayName}" Width="130" />
+                        <DataGridTextColumn Header="Elem A" Binding="{Binding ElementAId}" Width="60" />
+                        <DataGridTextColumn Header="Elem B" Binding="{Binding ElementBId}" Width="60" />
+                        <DataGridTextColumn Header="Cat A" Binding="{Binding CategoryA}" Width="80" />
+                        <DataGridTextColumn Header="Cat B" Binding="{Binding CategoryB}" Width="80" />
+                        <DataGridTextColumn Header="Severity" Binding="{Binding Severity}" Width="64" />
+                        <DataGridTextColumn Header="Depth" Binding="{Binding PenetrationDepth}" Width="60" />
+                        <DataGridTextColumn Header="Suggestion" Binding="{Binding Suggestion}" Width="250" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,8,0,0">
+                    <Button Content="Focus in 3D" Width="84" Margin="0,0,8,0" Click="FocusButton_Click" />
+                    <Button Content="Isolate" Width="66" Margin="0,0,8,0" Click="IsolateButton_Click" />
+                    <Button Content="Export CSV" Width="80" Margin="0,0,8,0" Click="ExportButton_Click" />
+                    <Button Content="Clear Results" Width="86" Click="ClearResultsButton_Click" />
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.Row="3" Margin="0,8,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding MetricsSummary}" Grid.Column="0" TextTrimming="CharacterEllipsis" />
+            <TextBlock Text="{Binding StatusMessage}" Grid.Column="1" TextAlignment="Right" TextTrimming="CharacterEllipsis" />
+        </Grid>
+    </Grid>
+</UserControl>
