@@ -1,4 +1,4 @@
-# BIRDTool Feature Requirements
+# ADDIN Feature Requirements
 
 ## Overview
 This document outlines the feature requirements needed to mimic the BIRDTools clash preventor tool for a Revit add-in.
