@@ -6,8 +6,143 @@
              mc:Ignorable="d"
              d:DesignHeight="900"
              d:DesignWidth="560"
-             MinWidth="440">
-    <Grid Margin="8">
+             MinWidth="440"
+             Background="#F3F6FB">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="PaneBackgroundBrush" Color="#F3F6FB" />
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="CardBorderBrush" Color="#CBD5E1" />
+        <SolidColorBrush x:Key="PrimaryTextBrush" Color="#0F172A" />
+        <SolidColorBrush x:Key="SecondaryTextBrush" Color="#334155" />
+        <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="#E2E8F0" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#2563EB" />
+        <SolidColorBrush x:Key="AccentHoverBrush" Color="#1D4ED8" />
+        <SolidColorBrush x:Key="AccentPressedBrush" Color="#1E40AF" />
+        <SolidColorBrush x:Key="InputBorderBrush" Color="#94A3B8" />
+        <SolidColorBrush x:Key="SelectedRowBrush" Color="#DBEAFE" />
+        <SolidColorBrush x:Key="DisabledBrush" Color="#E2E8F0" />
+        <SolidColorBrush x:Key="DisabledTextBrush" Color="#64748B" />
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+        </Style>
+
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource CardBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="4,2" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="4,2" />
+        </Style>
+
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+        </Style>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+            <Setter Property="Background" Value="{StaticResource HeaderBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#D1D9E6" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#C0CCDE" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{StaticResource DisabledBrush}" />
+                    <Setter Property="Foreground" Value="{StaticResource DisabledTextBrush}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource DisabledBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AccentHoverBrush}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource AccentHoverBrush}" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AccentPressedBrush}" />
+                    <Setter Property="BorderBrush" Value="{StaticResource AccentPressedBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource CardBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#E2E8F0" />
+            <Setter Property="VerticalGridLinesBrush" Value="#E2E8F0" />
+            <Setter Property="RowBackground" Value="{StaticResource CardBackgroundBrush}" />
+            <Setter Property="AlternatingRowBackground" Value="#F8FAFC" />
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+                        <Setter Property="Background" Value="{StaticResource HeaderBackgroundBrush}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource CardBorderBrush}" />
+                        <Setter Property="BorderThickness" Value="0,0,1,1" />
+                        <Setter Property="Padding" Value="6,4" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource SelectedRowBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Padding" Value="4,2" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="10" Background="{StaticResource PaneBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="2*" />
@@ -15,18 +150,29 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-            <Button Content="Run Now" Width="80" Margin="0,0,8,0" Click="RunNowButton_Click" />
-            <CheckBox Content="Auto Mode"
-                      Margin="0,4,8,0"
-                      IsChecked="{Binding AutoModeEnabled, Mode=TwoWay}" />
-            <TextBlock Text="Debounce (ms):" Margin="0,4,6,0" VerticalAlignment="Center" />
-            <TextBox Width="70"
-                     Margin="0,0,8,0"
-                     Text="{Binding DebounceMilliseconds, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-            <Button Content="Save Settings" Width="90" Margin="0,0,8,0" Click="SaveSettingsButton_Click" />
-            <Button Content="Refresh Models" Width="96" Click="RefreshCatalogsButton_Click" />
-        </StackPanel>
+        <Border Background="{StaticResource CardBackgroundBrush}"
+                BorderBrush="{StaticResource CardBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="10"
+                Margin="0,0,0,8">
+            <WrapPanel VerticalAlignment="Center">
+                <Button Content="Run Now"
+                        Width="80"
+                        Margin="0,0,8,0"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Click="RunNowButton_Click" />
+                <CheckBox Content="Auto Mode"
+                          Margin="0,4,8,0"
+                          IsChecked="{Binding AutoModeEnabled, Mode=TwoWay}" />
+                <TextBlock Text="Debounce (ms):" Margin="0,4,6,0" VerticalAlignment="Center" />
+                <TextBox Width="70"
+                         Margin="0,0,8,0"
+                         Text="{Binding DebounceMilliseconds, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                <Button Content="Save Settings" Width="90" Margin="0,0,8,0" Click="SaveSettingsButton_Click" />
+                <Button Content="Refresh Models" Width="96" Click="RefreshCatalogsButton_Click" />
+            </WrapPanel>
+        </Border>
 
         <Grid Grid.Row="1" Margin="0,0,0,8">
             <Grid.ColumnDefinitions>
@@ -46,7 +192,8 @@
                               AutoGenerateColumns="False"
                               IsReadOnly="False"
                               CanUserAddRows="False"
-                              Margin="8">
+                              Margin="8"
+                              AlternationCount="2">
                         <DataGrid.Columns>
                             <DataGridCheckBoxColumn Header="On" Binding="{Binding IsActive, Mode=TwoWay}" Width="40" />
                             <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*" />
@@ -125,7 +272,8 @@
                                       SelectedItem="{Binding SelectedCategoryPair, Mode=TwoWay}"
                                       AutoGenerateColumns="False"
                                       CanUserAddRows="False"
-                                      IsReadOnly="False">
+                                      IsReadOnly="False"
+                                      AlternationCount="2">
                                 <DataGrid.Columns>
                                     <DataGridCheckBoxColumn Header="On" Binding="{Binding Enabled, Mode=TwoWay}" Width="50" />
                                     <DataGridTextColumn Header="Category A" Binding="{Binding CategoryA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*" />
@@ -171,7 +319,8 @@
                           SelectedItem="{Binding SelectedResult, Mode=TwoWay}"
                           AutoGenerateColumns="False"
                           IsReadOnly="True"
-                          CanUserAddRows="False">
+                          CanUserAddRows="False"
+                          AlternationCount="2">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Config" Binding="{Binding ConfigName}" Width="110" />
                         <DataGridTextColumn Header="Model A" Binding="{Binding ModelA.DisplayName}" Width="130" />
@@ -200,8 +349,15 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding MetricsSummary}" Grid.Column="0" TextTrimming="CharacterEllipsis" />
-            <TextBlock Text="{Binding StatusMessage}" Grid.Column="1" TextAlignment="Right" TextTrimming="CharacterEllipsis" />
+            <TextBlock Text="{Binding MetricsSummary}"
+                       Grid.Column="0"
+                       Foreground="{StaticResource SecondaryTextBrush}"
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock Text="{Binding StatusMessage}"
+                       Grid.Column="1"
+                       Foreground="{StaticResource SecondaryTextBrush}"
+                       TextAlignment="Right"
+                       TextTrimming="CharacterEllipsis" />
         </Grid>
     </Grid>
 </UserControl>
